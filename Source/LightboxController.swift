@@ -36,6 +36,12 @@ open class LightboxController: UIViewController {
 
     return gesture
   }()
+    
+  lazy var holderTapGestureRecognizer: UILongPressGestureRecognizer = { [unowned self] in
+        let gesture = UILongPressGestureRecognizer()
+        gesture.addTarget(self, action: #selector(savePhotoToLibrary(_:)))
+        return gesture
+  }()
 
   lazy var effectView: UIVisualEffectView = {
     let effect = UIBlurEffect(style: .dark)
@@ -173,7 +179,8 @@ open class LightboxController: UIViewController {
 
     [scrollView, overlayView, headerView, footerView].forEach { view.addSubview($0) }
     overlayView.addGestureRecognizer(overlayTapGestureRecognizer)
-
+    scrollView.addGestureRecognizer(holderTapGestureRecognizer)
+    
     configurePages(initialImages)
     currentPage = initialPage
 
@@ -271,7 +278,22 @@ open class LightboxController: UIViewController {
   @objc func overlayViewDidTap(_ tapGestureRecognizer: UITapGestureRecognizer) {
     footerView.expand(false)
   }
-
+  //MARK: - Save photo
+  @objc func savePhotoToLibrary(_ tapGestureRecognizer: UILongPressGestureRecognizer) {
+    let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+    alert.title = nil
+    alert.message = nil
+    let saveAction = UIAlertAction(title: NSLocalizedString("Save Photo", comment: ""), style: .default) { [unowned self] _ in
+        if let image = self.images[self.currentPage].image {
+                UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
+        }
+    }
+    let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+    alert.addAction(saveAction)
+    alert.addAction(cancel)
+    self.present(alert, animated: true, completion: nil)
+  }
+    
   // MARK: - Layout
 
   open func configureLayout(_ size: CGSize) {
