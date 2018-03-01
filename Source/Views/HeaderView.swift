@@ -6,6 +6,13 @@ protocol HeaderViewDelegate: class {
 }
 
 open class HeaderView: UIView {
+
+  var centerTextStyle: NSMutableParagraphStyle = {
+    var style = NSMutableParagraphStyle()
+    style.alignment = .center
+    return style
+  }()
+
   open fileprivate(set) lazy var closeButton: UIButton = { [unowned self] in
     let title = NSAttributedString(
       string: LightboxConfig.CloseButton.text,
@@ -31,7 +38,7 @@ open class HeaderView: UIView {
     button.isHidden = !LightboxConfig.CloseButton.enabled
 
     return button
-  }()
+    }()
 
   open fileprivate(set) lazy var deleteButton: UIButton = { [unowned self] in
     let title = NSAttributedString(
@@ -58,7 +65,7 @@ open class HeaderView: UIView {
     button.isHidden = !LightboxConfig.DeleteButton.enabled
 
     return button
-  }()
+    }()
 
   weak var delegate: HeaderViewDelegate?
 
@@ -78,11 +85,11 @@ open class HeaderView: UIView {
 
   // MARK: - Actions
 
-  @objc func deleteButtonDidPress(_ button: UIButton) {
+  func deleteButtonDidPress(_ button: UIButton) {
     delegate?.headerView(self, didPressDeleteButton: button)
   }
 
-  @objc func closeButtonDidPress(_ button: UIButton) {
+  func closeButtonDidPress(_ button: UIButton) {
     delegate?.headerView(self, didPressCloseButton: button)
   }
 }
@@ -91,23 +98,10 @@ open class HeaderView: UIView {
 
 extension HeaderView: LayoutConfigurable {
 
-  @objc public func configureLayout() {
-    let topPadding: CGFloat
-
-    if #available(iOS 11, *) {
-      topPadding = safeAreaInsets.top
-    } else {
-      topPadding = 0
-    }
-
+  public func configureLayout() {
     closeButton.frame.origin = CGPoint(
-      x: bounds.width - closeButton.frame.width - 17,
-      y: topPadding
-    )
+      x: bounds.width - closeButton.frame.width - 17, y: 0)
 
-    deleteButton.frame.origin = CGPoint(
-      x: 17,
-      y: topPadding
-    )
+    deleteButton.frame.origin = CGPoint(x: 17, y: 0)
   }
 }

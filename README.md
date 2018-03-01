@@ -1,10 +1,13 @@
 # Lightbox
 
-[![CI Status](https://circleci.com/gh/hyperoslo/Lightbox.png)](https://circleci.com/gh/hyperoslo/Lightbox)
+[![Version](https://img.shields.io/cocoapods/v/Lightbox.svg?style=flat)](http://cocoadocs.org/docsets/Lightbox)
+[![CI Status](http://img.shields.io/travis/hyperoslo/Lightbox.svg?style=flat)](https://travis-ci.org/hyperoslo/Lightbox)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/Lightbox.svg?style=flat)](http://cocoadocs.org/docsets/Lightbox)
 [![Platform](https://img.shields.io/cocoapods/p/Lightbox.svg?style=flat)](http://cocoadocs.org/docsets/Lightbox)
-![Swift](https://img.shields.io/badge/%20in-swift%204.0-orange.svg)
+![Swift](https://img.shields.io/badge/%20in-swift%203.0-orange.svg)
+
+[Demo](https://appetize.io/app/wfgwc2uvg82m9pzbt17p4rrgh4?device=iphone5s&scale=75&orientation=portrait&osVersion=9.3)
 
 <img src="https://raw.githubusercontent.com/hyperoslo/Lightbox/master/Images/Icon.png" alt="Lightbox Icon" align="right" />
 
@@ -15,16 +18,10 @@ packed with all the features you expect:
 - [x] Video support.
 - [x] Double-tap to zoom.
 - [x] Image caption.
-- [x] Dynamic background based on [Hue](https://github.com/hyperoslo/Hue)
-- [x] Remote image loading and caching based on [Imaginary](https://github.com/hyperoslo/Imaginary)
+- [x] Dynamic background.
 - [x] Interactive transition animations.
 - [x] Powerful configuration.
-- [x] [Live Demo](https://appetize.io/app/wfgwc2uvg82m9pzbt17p4rrgh4?device=iphone5s&scale=75&orientation=portrait&osVersion=9.3)
-
-<div align="center">
-<img src="Images/demo.png" height="500">
-<img src="Images/demo2.png" height="500">
-</div>
+- [x] Demo project.
 
 ## Table of Contents
 
@@ -110,7 +107,9 @@ extension ViewController: LightboxControllerDismissalDelegate: class {
 
 ### Image loading
 
-By default images are loaded using [Imaginary](https://github.com/hyperoslo/Imaginary) for reliable loading and caching. But it's easy to change this behavior using **LightboxConfig**
+By default images are loaded using `sendAsynchronousRequest` method of
+`NSURLConnection`. But it's easy to change this behavior using **Lightbox**
+configuration.
 
 ```swift
 LightboxConfig.loadImage = {
@@ -121,7 +120,7 @@ LightboxConfig.loadImage = {
 
 ### Video
 
-**Lightbox** can show and plays video using default `AVPlayerViewController`. Showning video by using `videoURL`:
+**Lightbox** has video support out of the box. Configure video by using `videoURL`:
 
 ```swift
 LightboxImage(
@@ -159,7 +158,7 @@ LightboxConfig.DeleteButton.image = UIImage(named: ImageList.Lightbox.deleteButt
 LightboxConfig.DeleteButton.textAttributes = TextAttributes.Lightbox.deleteButton
 LightboxConfig.DeleteButton.text = "Delete"
 
-LightboxConfig.InfoLabel.ellipsisText = "Show more"
+LightboxConfig.InfoLabel.ellipsisText = "ShowMore"
 ```
 
 ## Installation
